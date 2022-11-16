@@ -2,7 +2,7 @@ import 'package:carrot_clone/models/content_model.dart';
 import 'package:carrot_clone/pages/detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
+import 'package:carrot_clone/utils/data_utils.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -31,10 +31,6 @@ class _HomeState extends State<Home> {
     super.didChangeDependencies();
     contentModel = ContentModel();
   }
-
-  final intl = NumberFormat("#,###", "ko_KR");
-  String calcWon(String price) =>
-      num.tryParse(price) != null ? "${intl.format(int.parse(price))}원" : price;
 
   PreferredSizeWidget _appBarWidget() {
     return AppBar(
@@ -146,7 +142,7 @@ class _HomeState extends State<Home> {
                                         color: Colors.black.withOpacity(0.3))),
                               ),
                               Text(
-                                calcWon(datas[index]["price"]!),
+                                DataUtils.calcWon(datas[index]["price"]!),
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w500),
                               ),

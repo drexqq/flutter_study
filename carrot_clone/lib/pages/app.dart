@@ -1,3 +1,4 @@
+import 'package:carrot_clone/pages/mypage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -59,6 +60,8 @@ class _AppState extends State<App> {
     switch (_curPage) {
       case 0:
         return const Home();
+      case 4:
+        return const MyPage();
       default:
         return Container();
     }

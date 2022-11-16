@@ -1,5 +1,9 @@
-class ContentModel {
-  final Map<String, dynamic> data = {
+import 'dart:convert';
+
+import 'package:carrot_clone/models/localstorage_model.dart';
+
+class ContentModel extends LocalStorageModel {
+  Map<String, dynamic> data = {
     "ara": [
       {
         "cid": "1",
@@ -165,8 +169,46 @@ class ContentModel {
       },
     ]
   };
-
+  // ignore: non_constant_identifier_names
+  String FAVORITE_KEY = "CARROTKEY";
   Future<List<Map<String, String>>> loadContentData(String location) async {
     return data.containsKey(location) ? data[location] : [];
+  }
+
+  Future<void> updateFavoriteContent(List<dynamic> list) async {
+    await set(FAVORITE_KEY, jsonEncode(list));
+  }
+
+  Future<List?> loadFavoriteContent() async {
+    String res = await get(FAVORITE_KEY);
+    if (res.isEmpty) return null;
+
+    List<dynamic> favoriteList = jsonDecode(res);
+    if (favoriteList.isEmpty) return null;
+
+    return favoriteList;
+  }
+
+  Future<void> addMyFavoriteContent(Map<String, String> data) async {
+    List<dynamic> list = await loadFavoriteContent() ?? [];
+    list.add(data);
+    updateFavoriteContent(list);
+  }
+
+  Future<void> deleteMyFavoriteContent(String cid) async {
+    List<dynamic> list = await loadFavoriteContent() ?? [];
+    if (list.isNotEmpty) {
+      list.removeWhere((data) => data["cid"] == cid);
+      updateFavoriteContent(list);
+    }
+  }
+
+  Future<bool?> isMyFavoriteContent(String cid) async {
+    List<dynamic> list = await loadFavoriteContent() ?? [];
+
+    for (dynamic data in list) {
+      if (cid == data["cid"]) return true;
+    }
+    return false;
   }
 }

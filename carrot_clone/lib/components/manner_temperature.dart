@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MannerTemperature extends StatelessWidget {
-  final double mMannerTemperature;
+  late final double mMannerTemperature;
   int? mLevel;
   static const List<Color> tempColors = [
     Color(0xff072038),
@@ -16,6 +17,7 @@ class MannerTemperature extends StatelessWidget {
       {super.key, required this.mMannerTemperature, this.mLevel}) {
     _calcTempLevel();
   }
+
   void _calcTempLevel() {
     if (mMannerTemperature <= 20) {
       mLevel = 0;
@@ -32,8 +34,6 @@ class MannerTemperature extends StatelessWidget {
     }
   }
 
-  double get temp => mMannerTemperature;
-
   Widget _setTempLabelWithBar() {
     return SizedBox(
       width: 60,
@@ -41,7 +41,7 @@ class MannerTemperature extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "$temp°C",
+            "$mMannerTemperature",
             style: TextStyle(
                 color: tempColors[mLevel!],
                 fontSize: 18,
